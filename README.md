@@ -1,28 +1,43 @@
-## What are Laravel Stub?
-In Laravel, stubs are templates used for generating code files. When you create a new class, controller, migration, or other type of file in Laravel using the php artisan command-line tool, Laravel generates a new file based on a stub template.
+## Overview
+Laravel stubs are helper modules that enable us to customize the default Artisan generated classes.
 
-The Laravel framework comes with a set of default stubs for generating common types of files. These stubs are stored in the resources/stubs directory of your Laravel application and can be customized to fit your specific project needs.
+For example, when you need to send data to a database, you are supposed to indicate fields that are ＄fillable or ＄guarded. This can be very time-consuming when it comes to creating an Enterprise system that involves hundreds of tables, as you will need to make these changes for each and every model.
 
-So, Stub are nothing, these are predefined core templates for classes. These files provide a predefined skeleton for controller, model etc.
+With stubs, you can simply indicate that you want all models to have ＄guarded = []. This should be done before you start creating the models.
 
-Example:
---<?php namespace {{ namespace }}; use {{ rootNamespace }}Http\Controllers\Controller; use Illuminate\Http\Request; class {{ class }} extends Controller { // } 
+Example
+Let’s go over an example. First, we have to publish the stubs.
 
-- {{ namespace }}, {{ rootNamespace }}, {{ class }} These are placeholders which will replaces when we pass class name, namespace into artisan command to generate controllers.
+Run the command below:
 
+# php artisan stub:publish
+You will notice a new stubs directory. In the stubs directory, there are files that can also be used for customization, as discussed above. For this shot, we will be editing the model.stub file.
 
-## When we run the command
+widget
 
-$ php artisan make:controller TestController
+# Let’s now add ＄guarded=[] to the model stub:
 
-Controller stub file will execute, replace all placeholders in a dynamic way and generate controller.
+``` 
+ <?php
 
-## Laravel Stub Publish
+ namespace {{ namespace }};
 
-To work with laravel stub files, first we need to publish it. When we publish stub then all files of stub will be located within a stubs directory in the root of your application.
+ use Illuminate\Database\Eloquent\Model;
 
-By default you will not see this folder (stubs) into application root.
+ class {{ class }} extends Model
+ {
+    // let us make customize it
+ protected ＄guarded = [];
 
-Publish Stubs
+}
 
-$ php artisan stub:publish
+``` 
+
+Now that we have added the ＄guarded=[] property to the stub for the model, we run the command to create a new TestStubModel:
+
+php artisan:make:model TestStubModel
+widget
+You will notice that the code above has protected ＄guarded=[];, and any other model you create will come with this property.
+
+## Summary
+Laravel stubs enable easy customization of created class properties, which increases the speed of developers.
